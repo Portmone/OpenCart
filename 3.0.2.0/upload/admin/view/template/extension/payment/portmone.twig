@@ -1,0 +1,238 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-portmone" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i> {{ button_save }}</button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i> {{ button_cancel }}</a></div>
+      <h1>{{ text_portmone }}</h1>
+      <ul class="breadcrumb">
+          {% for breadcrumb in breadcrumbs %}
+            <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+          {% endfor %}
+      </ul>
+    </div>
+  </div>
+<div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if success %}
+        <div class="alert alert-success"><i class="fa fa-exclamation-circle"></i> {{ success }}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+      </div>
+      <div class="panel-body">
+          <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-portmone" class="form-horizontal">
+              <ul class="nav nav-tabs">
+                  <li class="active"><a href="#tab-general" data-toggle="tab"><i class="fa fa-wrench"></i> {{ tab_general }}</a></li>
+                  <li><a href="#tab-status" data-toggle="tab"><i class="fa fa-info-circle"></i> {{ tab_order_status }}</a></li>
+              </ul>
+              <div class="tab-content">
+                  <div class="tab-pane active" id="tab-general">
+                      <div class="form-group">
+                          <label class="col-sm-2 control-label" for="input-status">
+                              <span data-toggle="tooltip" title="{{ h_entry_status }}">{{ entry_status }}</span>
+                          </label>
+                          <div class="col-sm-10">
+                              <select name="payment_portmone_status" id="input-status" class="form-control">
+                                  {% if payment_portmone_status %}
+                                      <option value="1" selected="selected">{{ text_enabled }}</option>
+                                      <option value="0">{{ text_disabled }}</option>
+                                  {% else %}
+                                      <option value="1">{{ text_enabled }}</option>
+                                      <option value="0" selected="selected">{{ text_disabled }}</option>
+                                  {% endif %}
+                              </select>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-sm-2 control-label" for="input-name">
+                              <span data-toggle="tooltip" title="{{ h_entry_name }}">{{ entry_name }}</span>
+                          </label>
+                          <div class="col-sm-10">
+                              <input type="text" name="payment_portmone_name" value="{{ payment_portmone_name }}" placeholder="{{ h_entry_name }}" id="input-portmone-name" class="form-control" />
+                          </div>
+                      </div>
+                      <div class="form-group required">
+                          <label class="col-sm-2 control-label" for="input-payee-id">
+                              <span data-toggle="tooltip" title="{{ h_entry_payee_id }}">{{ entry_payee_id }}</span>
+                          </label>
+                          <div class="col-sm-10">
+                              <input type="text" name="payment_portmone_payee_id" value="{{ payment_portmone_payee_id }}" placeholder="{{ h_entry_payee_id }}" id="input-portmone-payee-id" class="form-control" />
+                              {% if error_payee_id %}
+                                  <div class="text-danger">{{ error_payee_id }}</div>
+                              {% endif %}
+                          </div>
+                      </div>
+                      <div class="form-group required">
+                          <label class="col-sm-2 control-label" for="input-login">
+                              <span data-toggle="tooltip" title="{{ h_entry_login }}">{{ entry_login }}</span>
+                          </label>
+                          <div class="col-sm-10">
+                              <input type="text" name="payment_portmone_login" value="{{ payment_portmone_login }}" placeholder="{{ h_entry_login }}" id="input-portmone-login" class="form-control" />
+                              {% if error_login %}
+                                  <div class="text-danger">{{ error_login }}</div>
+                              {% endif %}
+                          </div>
+                      </div>
+                      <div class="form-group required">
+                          <label class="col-sm-2 control-label" for="input-pass">
+                              <span data-toggle="tooltip" title="{{ h_entry_pass }}">{{ entry_pass }}</span>
+                          </label>
+                          <div class="col-sm-10">
+                              <input type="password" name="payment_portmone_pass" value="{{ payment_portmone_pass }}" placeholder="{{ h_entry_pass }}" id="input-portmone-pass" class="form-control" />
+                              {% if error_pass %}
+                                  <div class="text-danger">{{ error_pass }}</div>
+                              {% endif %}
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-sm-2 control-label" for="input-order-status">
+                              <span data-toggle="tooltip" title="{{ h_entry_order_stat }}">{{ entry_order_stat }}</span>
+                          </label>
+                          <div class="col-sm-10">
+                              <select name="payment_portmone_order_stat_id" id="input-order-status" class="form-control">
+                                  {% for order_status in order_statuses %}
+                                      {% if order_status.order_status_id == payment_portmone_order_stat_id %}
+                                          <option value="{{ order_status.order_status_id }}" selected="selected">{{ order_status.name }}</option>
+                                      {% else %}
+                                          <option value="{{ order_status.order_status_id }}">{{ order_status.name }}</option>
+                                      {% endif %}
+                                  {% endfor %}
+                              </select>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-sm-2 control-label" for="input-order-status-failure">
+                              <span data-toggle="tooltip" title="{{ h_entry_order_stat_fa }}">{{ entry_order_stat_fa }}</span>
+                          </label>
+                          <div class="col-sm-10">
+                              <select name="payment_portmone_order_stat_fal_id" id="input-order-status-failure" class="form-control">
+                                  {% for order_status in order_statuses %}
+                                      {% if order_status.order_status_id == payment_portmone_order_stat_fal_id %}
+                                          <option value="{{ order_status.order_status_id }}" selected="selected">{{ order_status.name }}</option>
+                                      {% else %}
+                                          <option value="{{ order_status.order_status_id }}">{{ order_status.name }}</option>
+                                      {% endif %}
+                                  {% endfor %}
+                              </select>
+                          </div>
+                      </div>
+                      <div class="form-group" style="display: none;">
+                          <label class="col-sm-2 control-label" for="input-order-status-failure">
+                              <span data-toggle="tooltip" title="{{ h_entry_order_stat_fa }}">{{ entry_order_stat_fa }}</span>
+                          </label>
+                          <div class="col-sm-10">
+                              <select name="payment_portmone_order_stat_not_verified_id" id="input-order-status-failure" class="form-control">
+                                  {% for order_status in order_statuses %}
+                                      {% if order_status.order_status_id == payment_portmone_order_stat_not_verified_id %}
+                                          <option value="{{ order_status.order_status_id }}" selected="selected">{{ order_status.name }}</option>
+                                      {% else %}
+                                          <option value="{{ order_status.order_status_id }}">{{ order_status.name }}</option>
+                                      {% endif %}
+                                  {% endfor %}
+                              </select>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-sm-2 control-label" for="input-order-status">
+                              <span data-toggle="tooltip" title="{{ h_entry_order_stat_preauth }}">{{ entry_order_stat_preauth }}</span>
+                          </label>
+                          <div class="col-sm-10">
+                              <select name="payment_portmone_order_stat_preauth_id" id="input-order-status" class="form-control">
+                                  {% for order_status in order_statuses %}
+                                      {% if order_status.order_status_id == payment_portmone_order_stat_preauth_id %}
+                                          <option value="{{ order_status.order_status_id }}" selected="selected">{{ order_status.name }}</option>
+                                      {% else %}
+                                          <option value="{{ order_status.order_status_id }}">{{ order_status.name }}</option>
+                                      {% endif %}
+                                  {% endfor %}
+                              </select>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-sm-2 control-label" for="input-geo-zone">
+                              <span data-toggle="tooltip" title="{{ entry_geo_zone }}">{{ entry_geo_zone }}</span>
+                          </label>
+                          <div class="col-sm-10">
+                              <select name="payment_portmone_geo_zone_id" id="input-geo-zone" class="form-control">
+                                  <option value="0">{{ text_all_zones }}</option>
+                                  {% for geo_zone in geo_zones %}
+                                      {% if geo_zone.geo_zone_id == payment_portmone_geo_zone_id %}
+                                          <option value="{{ geo_zone.geo_zone_id }}" selected="selected">{{ geo_zone.name }}</option>
+                                      {% else %}
+                                          <option value="{{ geo_zone.geo_zone_id }}">{{ geo_zone.name }}</option>
+                                      {% endif %}
+                                  {% endfor %}
+                              </select>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-sm-2 control-label" for="input-preauth-flag">
+                              <span data-toggle="tooltip" title="{{ h_entry_preauth_flag }}">{{ entry_preauth_flag }}</span>
+                          </label>
+                          <div class="col-sm-10">
+                              <div class="checkbox">
+                                  <label>
+                                      {% if payment_portmone_entry_preauth_flag is defined and payment_portmone_entry_preauth_flag=='1' %}
+                                          <input type="checkbox" name="payment_portmone_entry_preauth_flag" id="payment_portmone_entry_preauth_flag" value="1" checked="checked" />
+                                      {% else %}
+                                          <input type="checkbox" name="payment_portmone_entry_preauth_flag" id="payment_portmone_entry_preauth_flag" value="1" />
+                                      {% endif %}
+                                  </label>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-sm-2 control-label" for="input-showlogo">
+                              <span data-toggle="tooltip" title="{{ h_entry_showlogo }}">{{ entry_showlogo }}</span>
+                          </label>
+                          <div class="col-sm-10">
+                              <div class="checkbox">
+                                  <label>
+                                      {% if payment_portmone_entry_showlogo is defined and payment_portmone_entry_showlogo=='1' %}
+                                          <input type="checkbox" name="payment_portmone_entry_showlogo" id="payment_portmone_entry_showlogo" value="1" checked="checked" />
+                                      {% else %}
+                                          <input type="checkbox" name="payment_portmone_entry_showlogo" id="payment_portmone_entry_showlogo" value="1" />
+                                      {% endif %}
+                                  </label>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-sm-2 control-label" for="input-sort-order">
+                              <span data-toggle="tooltip" title="{{ h_entry_sort_order }}">{{ entry_sort_order }}</span>
+                          </label>
+                          <div class="col-sm-10">
+                              <input type="text" name="payment_portmone_sort_order" value="{{ payment_portmone_sort_order }}" placeholder="{{ h_entry_sort_order }}" id="input-sort-order" class="form-control" />
+                          </div>
+                      </div>
+                  </div>
+                  <div class="tab-pane" id="tab-status">
+                      <div class="form-group">
+                          <label class="col-sm-2 control-label">{{ OP_version }}</label>
+                          <div class="col-sm-10">
+                              <div>{{ entry_OP_version }}</div>
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-sm-2 control-label">{{ Plugin_version }}</label>
+                          <div class="col-sm-10">
+                              <div>{{ entry_Plugin_version }}</div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{ footer }}

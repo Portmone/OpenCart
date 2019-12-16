@@ -1,0 +1,16 @@
+<form action="{{ action }}" method="post">
+    <input type="hidden" name="payee_id" value="{{ payee_id }}">
+    <input type="hidden" name="shop_order_number" value="{{ shop_order_number }}">
+    <input type="hidden" name="bill_amount" value="{{ bill_amount }}">
+    <input type="hidden" name="description" value="{{ description }}">
+    <input type="hidden" name="success_url" value="{{ success_url }}">
+    <input type="hidden" name="failure_url" value="{{ failure_url }}">
+    <input type="hidden" name="preauth_flag" value="{{ preauth_flag }}">
+    <input type="hidden" name="lang" value="{{ lang }}">
+    <input type="hidden" name="encoding" value="UTF-8">
+    <div class="buttons">
+        <div class="pull-right">
+            <input type="submit" value="{{ button_pay }}" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
