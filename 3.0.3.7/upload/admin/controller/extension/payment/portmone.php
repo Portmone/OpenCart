@@ -1,6 +1,6 @@
 <?php
 class ControllerExtensionPaymentPortmone extends Controller {
-    public $version = '4.0.0';
+    public $version = '4.0.1';
     public $requires_OC_at_least = '3.0.3.7';
     public $tested_OC_up_to = '3.0.3.7';
     private $error = array();
@@ -220,6 +220,8 @@ class ControllerExtensionPaymentPortmone extends Controller {
     }
 
     protected function validate() {
+        unset($this->error['warning']);
+
         if (!$this->user->hasPermission('modify', 'extension/payment/portmone')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }

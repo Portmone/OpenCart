@@ -2,7 +2,7 @@
 // Text
 $_['text_title']                        = 'Portmone';
 $_['button_pay']                        = 'Payment for order through Portmone';
-$_['img_portmone']                      = '<a target="_blank" href="https://www.portmone.com.ua/r3/uk/"><img width="200" src="admin/view/image/payment/portmone.svg" title="Portmone.com" /></a>';
+$_['img_portmone']                      = '<a target="_blank" href="https://www.portmone.com.ua/"><img width="200" src="admin/view/image/payment/portmone.svg" title="Portmone.com"></a>';
 $_['heading_title_failure']             = 'Order payment failed';
 $_['heading_title_failure_success']     = 'Payment for the order was successful';
 $_['number_pay']                        = 'Your order number';

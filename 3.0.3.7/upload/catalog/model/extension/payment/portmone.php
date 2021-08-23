@@ -15,8 +15,8 @@ class ModelExtensionPaymentPortmone extends Model {
         $method_data = array();
         if ($status) {
             if ($this->config->get('payment_portmone_entry_showlogo') == '1') {
-                $portmone_title = $this->language->get('img_portmone');
-                $portmone_img = '';
+                $portmone_title = $this->config->get('payment_portmone_name');
+                $portmone_img = $this->language->get('img_portmone');
             } else {
                 $portmone_title = $this->config->get('payment_portmone_name');
                 $portmone_img = '';

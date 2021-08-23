@@ -7,7 +7,7 @@ $_['text_payment']          = 'Оплата';
 $_['text_success']          = 'Налаштування змінені!';
 $_['text_edit']             = 'Редагування';
 $_['text_pay']              = 'Portmone.com';
-$_['text_portmone']         = '<a target="_BLANK" href="https://www.portmone.com.ua/r3/uk/"><img width=200" src="view/image/payment/portmone.svg" alt="Portmone.com" title="Portmone.com" /></a>';
+$_['text_portmone']         = '<a target="_BLANK" href="https://www.portmone.com.ua/"><img width=200" src="view/image/payment/portmone.svg" alt="Portmone.com" title="Portmone.com"></a>';
 $_['tab_general']           = 'Налаштування';
 $_['tab_order_status']      = 'Інформація';
 
