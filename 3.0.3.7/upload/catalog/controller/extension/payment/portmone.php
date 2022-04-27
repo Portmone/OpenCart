@@ -17,27 +17,28 @@ class ControllerExtensionPaymentPortmone extends Controller {
 
         $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
         $getProducts = $this->cart->getProducts();
-            if (is_array($getProducts)) {
-                $description_order = '';
-                foreach($getProducts as $product) {
-                    $description = '(IDproduct ' . $product['product_id'] . ') (quantity '. $product['quantity'] . ') | ';
-                    $description_order .= $description;
-                }
-                $description_order .= 'TOTAL '. $this->currency->format(
+        if (is_array($getProducts)) {
+            $description_order = '';
+            foreach($getProducts as $product) {
+                $description = '(IDproduct ' . $product['product_id'] . ') (quantity '. $product['quantity'] . ') | ';
+                $description_order .= $description;
+            }
+            $description_order .= 'TOTAL '. $this->currency->format(
                     $order_info['total'],
                     $order_info['currency_code'],
                     $order_info['currency_value'],
                     false
                 );
-            }
+        }
 
         $data['button_pay']         = $this->language->get('button_pay');
         $data['action']             = $this->liveurl;
         $data['payee_id']           = $this->config->get('payment_portmone_payee_id');
+        $data['exp_time']           = $this->config->get('payment_portmone_exp_time');
         $data['shop_order_number']  = $this->session->data['order_id'].'_'.time();
         $data['bill_amount']        = $this->currency->format($order_info['total'],
-                                      $order_info['currency_code'],
-                                      $order_info['currency_value'], false);
+            $order_info['currency_code'],
+            $order_info['currency_value'], false);
         $data['description']        = $description_order;
         $data['success_url']        = $this->url->link('extension/payment/portmone/callback', '', 'SSL');
         $data['failure_url']        = $this->url->link('extension/payment/portmone/callback', '', 'SSL');
@@ -45,6 +46,12 @@ class ControllerExtensionPaymentPortmone extends Controller {
         $data['preauth_flag']       = ($this->config->get('payment_portmone_entry_preauth_flag') == 1)? 'Y' : 'N' ;
         $data['cms_module_name']    = json_encode(['name' => 'OpenCart', 'v' => $this->version]);
         $data['payment_portmone_order_confirm_status_id'] = 1 ;
+        $key						=$this->config->get('payment_portmone_key');
+        $data['dt']       			= date('Ymdhis');
+        $signature					= $data['payee_id'].$data['dt'].bin2hex($data['shop_order_number']).$data['bill_amount'] ;
+        $signature 					= strtoupper($signature).strtoupper(bin2hex($this->config->get('payment_portmone_login')));
+        $signature 					= strtoupper(hash_hmac('sha256', $signature, $key));
+        $data['signature']    		= $signature;
 
         if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/extension/payment/portmone')) {
             return $this->load->view($this->config->get('config_template') . '/template/extension/payment/portmone', $data);
@@ -90,8 +97,8 @@ class ControllerExtensionPaymentPortmone extends Controller {
         }
 
         $array_statuses = [$this->config->get('payment_portmone_order_stat_id'),
-        $this->config->get('payment_portmone_order_stat_not_verified_id'),
-        $this->config->get('payment_portmone_order_stat_preauth_id')];
+            $this->config->get('payment_portmone_order_stat_not_verified_id'),
+            $this->config->get('payment_portmone_order_stat_preauth_id')];
 
         if (in_array($this->order_status, $array_statuses)) {
             return $this->language->get('repeated_payment');
@@ -305,7 +312,7 @@ class ControllerExtensionPaymentPortmone extends Controller {
         } else {
             $this->response->redirect($this->url->link('common/home'));
         }
-    exit;
+        exit;
     }
 
     /**
