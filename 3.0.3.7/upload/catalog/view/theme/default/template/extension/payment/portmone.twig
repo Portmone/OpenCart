@@ -9,6 +9,11 @@
     <input type="hidden" name="lang" value="{{ lang }}">
     <input type="hidden" name="cms_module_name" value='{{cms_module_name}}'>
     <input type="hidden" name="encoding" value="UTF-8">
+    <input type="hidden" name="signature" value='{{signature}}' />
+    <input type="hidden" name="dt" value='{{dt}}' />
+    {% if exp_time %}
+        <input type="hidden" name="exp_time" value='{{exp_time}}' />
+    {% endif %}
     <div class="buttons">
         <div class="pull-right">
             <input type="button" value="{{ button_pay }}" id="button-confirm" class="btn btn-primary" />
@@ -28,7 +33,7 @@
                 $('#button-confirm').button('reset');
             },
             success: function() {
-               document.forms['checkout-portmone'].submit();
+                document.forms['checkout-portmone'].submit();
             }
         });
     });

@@ -45,13 +45,18 @@ class ControllerExtensionPaymentPortmone extends Controller {
         'button_cancel'             ,
         'h_entry_name'              ,
         'entry_name'                ,
+        'entry_key'           		,
+        'h_entry_key'          		,
+        'entry_exp_time'           	,
+        'h_entry_exp_time'          ,
     );
-     private $error_data = array(
+    private $error_data = array(
         'warning'   ,
         'payee_id'  ,
         'login'     ,
         'pass'      ,
         'type'      ,
+        'key'		,
     );
     private $post_data = array(
         'status'                    ,
@@ -67,6 +72,8 @@ class ControllerExtensionPaymentPortmone extends Controller {
         'entry_showlogo'            ,
         'sort_order'                ,
         'geo_zone_id'               ,
+        'key'						,
+        'exp_time'					,
     );
     private $currency_add_uan = array (
         'title'         => 'Гривна',
@@ -227,6 +234,9 @@ class ControllerExtensionPaymentPortmone extends Controller {
         }
         if (!$this->request->post['payment_portmone_payee_id']) {
             $this->error['payee_id'] = $this->language->get('error_payee_id');
+        }
+        if (!$this->request->post['payment_portmone_key']) {
+            $this->error['key'] = $this->language->get('error_key');
         }
         if (!$this->request->post['payment_portmone_login']) {
             $this->error['login'] = $this->language->get('error_login');
