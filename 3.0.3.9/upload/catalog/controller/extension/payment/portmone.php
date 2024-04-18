@@ -1,6 +1,6 @@
 <?php
 class ControllerExtensionPaymentPortmone extends Controller {
-    public $version         = '4.0.2';
+    public $version         = '4.0.3';
     const ORDER_PAYED       = 'PAYED';
     const ORDER_CREATED     = 'CREATED';
     const ORDER_REJECTED    = 'REJECTED';
@@ -107,7 +107,8 @@ class ControllerExtensionPaymentPortmone extends Controller {
 
         $array_statuses = [$this->config->get('payment_portmone_order_stat_id'),
             $this->config->get('payment_portmone_order_stat_not_verified_id'),
-            $this->config->get('payment_portmone_order_stat_preauth_id')];
+            $this->config->get('payment_portmone_order_stat_preauth_id'),
+            $this->config->get('payment_portmone_order_stat_completed_id')];
 
         if (in_array($this->order_status, $array_statuses)) {
             return $this->language->get('repeated_payment');

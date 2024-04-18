@@ -1,6 +1,6 @@
 <?php
 class ControllerExtensionPaymentPortmone extends Controller {
-    public $version = '4.0.2';
+    public $version = '4.0.3';
     public $requires_OC_at_least = '3.0.3.9';
     public $tested_OC_up_to = '3.0.3.9';
     private $error = array();
@@ -31,6 +31,8 @@ class ControllerExtensionPaymentPortmone extends Controller {
         'h_entry_order_stat_fa'     ,
         'entry_order_stat_preauth'  ,
         'h_entry_order_stat_preauth',
+        'entry_order_stat_completed',
+        'h_entry_order_stat_completed',
         'entry_geo_zone'            ,
         'entry_preauth_flag'        ,
         'h_entry_preauth_flag'      ,
@@ -68,6 +70,7 @@ class ControllerExtensionPaymentPortmone extends Controller {
         'order_stat_fal_id'         ,
         'order_stat_not_verified_id',
         'order_stat_preauth_id'     ,
+        'order_stat_completed_id'   ,
         'entry_preauth_flag'        ,
         'entry_showlogo'            ,
         'sort_order'                ,
@@ -88,7 +91,8 @@ class ControllerExtensionPaymentPortmone extends Controller {
         'payment_portmone_order_stat_id'                => ['language_id' => 1,'name' => '<b style="color:#2abb1a;">(Portmone.com) Оплачен</b>'],
         'payment_portmone_order_stat_not_verified_id'   => ['language_id' => 1,'name' => '<b style="color:#13580b;">(Portmone.com) Оплачено (но не проверено)</b>'],
         'payment_portmone_order_stat_fal_id'            => ['language_id' => 1,'name' => '<b style="color:#ef0c0c;">(Portmone.com) Оплата не прошла</b>'],
-        'payment_portmone_order_stat_preauth_id'        => ['language_id' => 1,'name' => '<b style="color:#ffd400;">(Portmone.com) Оплачено (блокировка средств)</b>']
+        'payment_portmone_order_stat_preauth_id'        => ['language_id' => 1,'name' => '<b style="color:#ffd400;">(Portmone.com) Оплачено (блокировка средств)</b>'],
+        'payment_portmone_order_stat_completed_id'      => ['language_id' => 1,'name' => '<b style="color:#0000ff;">(Portmone.com) Завершён</b>']
     ];
 
     public function __construct($registry) {
