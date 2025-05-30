@@ -43,6 +43,9 @@ $_['entry_sort_order']      = 'Sort Order';
 $_['h_entry_sort_order']    = 'Order of sorting the payment system when placing an order';
 $_['OP_version']            = 'OpenCart version';
 $_['Plugin_version']        = 'Plug-in version';
+$_['entry_order_confirm_stat']      = 'Order status after placing an order';
+$_['h_entry_order_confirm_stat']    = 'When you click the "Confirm" button at the last stage of placing an order, the order will be assigned the selected status';
+
 
 // Error
 $_['error_permission']      = 'Warning: You do not have permission to modify payment Portmone!';

@@ -43,7 +43,7 @@ class ControllerPaymentPortmonepay extends Controller {
         $data['lang']               = $this->getLanguage();
         $data['exp_time']           = $this->config->get('portmonepay_exp_time') ?? '';
         $data['preauth_flag']       = $this->config->get('portmonepay_preauth') ?? 'N';
-        $data['cms_module_name']    = json_encode(['name' => 'OpenCart', 'v' => $this->version]);
+        $data['cms_module_name']    = str_ireplace('"', '&quot;',  json_encode(['name' => 'OpenCart', 'v' => $this->version]));
         $key						= $this->config->get('portmonepay_key');
         $data['dt']       			= date('Ymdhis');
         $signature					= $data['payee_id'].$data['dt'].bin2hex($data['shop_order_number']).$data['bill_amount'] ;
