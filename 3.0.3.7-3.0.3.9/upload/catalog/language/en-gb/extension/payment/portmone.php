@@ -14,3 +14,4 @@ $_['error_merchant']                    = 'Error during payment. Online store da
 $_['order_rejected']                    = 'Error during payment. Check your card details and try to pay again!';
 $_['repeated_payment']                  = 'The status of this order is Paid, it cannot be paid again';
 $_['notification_error']                = 'Error while processing notification';
+$_['user_redirected_to_portmone']       = 'User has been redirected to Portmone.com to pay';

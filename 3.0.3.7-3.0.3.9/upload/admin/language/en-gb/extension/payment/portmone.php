@@ -58,3 +58,4 @@ $_['error_pass']            = 'Required';
 $_['notice_description']    = 'The error will disappear after a successful payment';
 $_['plagin_status_success'] = 'version is relevant for the plugin';
 $_['plagin_status_warning'] = 'the plugin is NOT tested on this version and may be unstable';
+$_['user_redirected_to_portmone']       = 'User has been redirected to Portmone.com to pay';

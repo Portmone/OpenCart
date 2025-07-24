@@ -67,7 +67,7 @@ class ControllerExtensionPaymentPortmone extends Controller {
             $this->model_checkout_order->addOrderHistory(
                 $this->session->data['order_id'],
                 $this->config->get('payment_portmone_order_confirm_id'),
-                '#2P '.'Пользователь перещел на Portmone.com для оплаты',
+                '#2P '.'Користувач перейшов на Portmone.com для оплати' ,
                 '1');
         }
     }
@@ -299,9 +299,14 @@ class ControllerExtensionPaymentPortmone extends Controller {
 
             $receiveNotification = $this->config->get('payment_portmone_entry_receiveNotification');
             if ($receiveNotification == '1') {
-                $this->msg['message'] = $this->language->get('thankyou_text') . ' <br />' . $this->language->get('number_pay') . ': ' . $this->request_orderId ;
-                $this->cart->clear();
-                $this->callback_requests('heading_title_failure_success', $this->msg['message'], 'success');
+                if ($this->request->post['RESULT'] == '0') {
+                    $this->msg['message'] = $this->language->get('thankyou_text') . ' <br />' . $this->language->get('number_pay') . ': ' . $this->request_orderId ;
+                    $this->cart->clear();
+                    $this->callback_requests('heading_title_failure_success', $this->msg['message'], 'success');
+                } else {
+                    $this->msg['message'] = $this->request->post['RESULT'] . ' <br />' . $this->language->get('number_pay') . ': ' . $this->request_orderId ;
+                    $this->callback_requests('heading_title_failure', $this->msg['message'], 'failure');
+                }
                 return;
             }
 
