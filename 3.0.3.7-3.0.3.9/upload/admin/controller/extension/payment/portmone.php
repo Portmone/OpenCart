@@ -1,6 +1,6 @@
 <?php
 class ControllerExtensionPaymentPortmone extends Controller {
-    public $version = '4.0.5';
+    public $version = '4.0.6';
     public $requires_OC_at_least = '3.0.3.7';
     public $tested_OC_up_to = '3.0.3.9';
     private $error = array();
