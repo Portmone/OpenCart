@@ -1,6 +1,6 @@
 <?php
 class ControllerExtensionPaymentPortmone extends Controller {
-    public $version = '4.0.5';
+    public $version = '4.0.6';
     public $requires_OC_at_least = '3.0.3.7';
     public $tested_OC_up_to = '3.0.3.9';
     private $error = array();
@@ -68,6 +68,7 @@ class ControllerExtensionPaymentPortmone extends Controller {
         'payee_id'                  ,
         'login'                     ,
         'pass'                      ,
+        'order_confirm_id'          ,
         'order_stat_id'             ,
         'order_stat_fal_id'         ,
         'order_stat_not_verified_id',
@@ -193,7 +194,10 @@ class ControllerExtensionPaymentPortmone extends Controller {
                 $data['payment_portmone_'.$value] = $this->config->get('payment_portmone_'.$value);
             }
         }
-        $data['payment_portmone_order_confirm_id'] = 1;
+
+        if (empty($data['payment_portmone_order_confirm_id'])) {
+            $data['payment_portmone_order_confirm_id'] = 1;
+        }
 
         $payment_portmone_name_val = $this->config->get('payment_portmone_name');
         if(!isset($payment_portmone_name_val)){

@@ -1,6 +1,6 @@
 <?php
 class ControllerExtensionPaymentPortmone extends Controller {
-    public $version         = '4.0.5';
+    public $version         = '4.0.6';
     const ORDER_PAYED       = 'PAYED';
     const ORDER_CREATED     = 'CREATED';
     const ORDER_REJECTED    = 'REJECTED';
