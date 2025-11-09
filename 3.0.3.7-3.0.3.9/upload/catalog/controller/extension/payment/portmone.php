@@ -1,6 +1,6 @@
 <?php
 class ControllerExtensionPaymentPortmone extends Controller {
-    public $version         = '4.0.6';
+    public $version         = '4.0.7';
     const ORDER_PAYED       = 'PAYED';
     const ORDER_CREATED     = 'CREATED';
     const ORDER_REJECTED    = 'REJECTED';
@@ -45,6 +45,9 @@ class ControllerExtensionPaymentPortmone extends Controller {
         $data['failure_url']        = $this->url->link('extension/payment/portmone/callback', '', 'SSL');
         $data['lang']               = $this->getLanguage();
         $data['preauth_flag']       = ($this->config->get('payment_portmone_entry_preauth_flag') == 1)? 'Y' : 'N' ;
+        $data['attribute1']         = ($this->config->get('payment_portmone_entry_client_first_last_name_flag') == 1)? $order_info['payment_firstname'] .' ' . $order_info['payment_lastname'] : '' ;
+        $data['attribute2']         = ($this->config->get('payment_portmone_entry_client_phone_number_flag') == 1)? $order_info['telephone'] : '' ;
+        $data['attribute3']         = ($this->config->get('payment_portmone_entry_client_email_flag') == 1)? $order_info['email'] : '' ;
         $data['cms_module_name']    = json_encode(['name' => 'OpenCart', 'v' => $this->version]);
         $data['payment_portmone_order_confirm_status_id'] = 1 ;
         $key						=$this->config->get('payment_portmone_key');
