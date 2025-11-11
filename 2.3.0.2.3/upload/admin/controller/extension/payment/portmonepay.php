@@ -1,6 +1,6 @@
 <?php
 class ControllerExtensionPaymentPortmonepay extends Controller {
-    public $version = '2.0.0';
+    public $version = '2.0.1';
     private $error = array();
     private $text_data = array(
     'heading_title'             ,
@@ -21,6 +21,8 @@ class ControllerExtensionPaymentPortmonepay extends Controller {
     'h_entry_login'             ,
     'entry_pass'                ,
     'h_entry_pass'              ,
+    'entry_key'   	         	,
+    'h_entry_key' 		        ,
     'entry_order_stat'          ,
     'h_entry_order_stat'        ,
     'entry_order_stat_fa'       ,
@@ -37,6 +39,10 @@ class ControllerExtensionPaymentPortmonepay extends Controller {
     'button_cancel'             ,
     'h_entry_name'              ,
     'entry_name'                ,
+    'h_entry_internal_code'     ,
+    'entry_internal_code'       ,
+    'h_entry_tax_rate_codes'    ,
+    'entry_tax_rate_codes'      ,
     );
     private $error_data = array(
     'warning'   ,
@@ -44,6 +50,7 @@ class ControllerExtensionPaymentPortmonepay extends Controller {
     'login'     ,
     'pass'      ,
     'type'      ,
+    'key'       ,
     );
     private $post_data = array(
     'status'            ,
@@ -51,11 +58,14 @@ class ControllerExtensionPaymentPortmonepay extends Controller {
     'payee_id'          ,
     'login'             ,
     'pass'              ,
+    'key'               ,
     'order_stat_id'     ,
     'order_stat_fal_id' ,
     'entry_showlogo'    ,
     'sort_order'        ,
     'geo_zone_id'       ,
+    'internal_code'     ,
+    'tax_rate_codes'    ,
     );
     private $currency_add_uan = array (
     'title'         => 'Гривна',
@@ -160,6 +170,10 @@ class ControllerExtensionPaymentPortmonepay extends Controller {
         }
         if (!$this->request->post['portmonepay_pass']) {
             $this->error['pass'] = $this->language->get('error_pass');
+        }
+
+        if (!$this->request->post['portmonepay_key']) {
+            $this->error['key'] = $this->language->get('error_key');
         }
 
         return !$this->error;

@@ -12,33 +12,75 @@ class ControllerExtensionPaymentPortmonepay extends Controller {
         $this->load->language('extension/payment/portmonepay');
         $this->load->model('checkout/order');
 
+        $postData = [];
+
         $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-        $getProducts = $this->cart->getProducts();
+        $shop_order_number = $this->session->data['order_id'].'_'.time();
+
+        $bill_amount = $this->currency->format($order_info['total'],
+            $order_info['currency_code'],
+            $order_info['currency_value'], false);
+
+        $dt = date('Ymdhis');
+        $signature = $this->config->get('portmonepay_payee_id').$dt.bin2hex($shop_order_number).$bill_amount  ;
+        $signature = strtoupper($signature).strtoupper(bin2hex($this->config->get('portmonepay_login')));
+        $signature = strtoupper(hash_hmac('sha256', $signature, $this->config->get('portmonepay_key')));
+
+        $postData['payee'] = [
+            'payeeId' =>  $this->config->get('portmonepay_payee_id'),
+            'login' => $this->config->get('portmonepay_login'),
+            'dt' => $dt,
+            'signature' => $signature,
+        ];
+
+        $postData['order'] = [
+            'description' => '',
+            'shopOrderNumber' => $shop_order_number,
+            'billAmount' => $bill_amount,
+            'successUrl' => $this->url->link('extension/payment/portmonepay/callback', '', 'SSL'),
+            'failureUrl' => $this->url->link('extension/payment/portmonepay/callback', '', 'SSL'),
+        ];
+
+        $postData['payer'] = [
+            'lang' => $this->getLanguage(),
+            'emailAddress' => $order_info['email'],
+            'showEmail' => 'Y'
+        ];
+
+        $postData['paymentTypes'] = [
+            'clicktopay' => 'Y',
+            'createtokenonly' => 'N',
+            'token' => 'N',
+            'privat' => 'N',
+            'gpay' => 'Y',
+            'apay' => 'Y',
+            'card' => 'Y'
+        ];
+
+        if (!empty($this->config->get('portmonepay_internal_code')) && !empty($this->config->get('portmonepay_tax_rate_codes'))) {
+            $getProducts = $this->cart->getProducts();
+
             if (is_array($getProducts)) {
-                $description_order = '';
+                $goods = [];
                 foreach($getProducts as $product) {
-                    $description = '(IDproduct ' . $product['product_id'] . ') (quantity '. $product['quantity'] . ') | ';
-                    $description_order .= $description;
+                    $goods[] = [
+                        'internalCode' => $this->config->get('portmonepay_internal_code'),
+                        'name' => $product['name'],
+                        'price' => $product['price'],
+                        'quantity' => $product['quantity'],
+                        'amount' => $product['total'],
+                        'taxRateCodes' => $this->config->get('portmonepay_tax_rate_codes'),
+                    ];
                 }
-                $description_order .= 'TOTAL '. $this->currency->format(
-                    $order_info['total'],
-                    $order_info['currency_code'],
-                    $order_info['currency_value'],
-                    false
-                );
+
+                $postData['goods'] = $goods;
+
             }
+        }
 
         $data['button_pay']         = $this->language->get('button_pay');
         $data['action']             = $this->liveurl;
-        $data['payee_id']           = $this->config->get('portmonepay_payee_id');
-        $data['shop_order_number']  = $this->session->data['order_id'].'_'.time();
-        $data['bill_amount']        = $this->currency->format($order_info['total'],
-                                      $order_info['currency_code'],
-                                      $order_info['currency_value'], false);
-        $data['description']        = $description_order;
-        $data['success_url']        = $this->url->link('extension/payment/portmonepay/callback', '', 'SSL');
-        $data['failure_url']        = $this->url->link('extension/payment/portmonepay/callback', '', 'SSL');
-        $data['lang']               = $this->getLanguage();
+        $data['data']               = json_encode($postData);
 
         if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/extension/payment/portmonepay.tpl')) {
             return $this->load->view($this->config->get('config_template') . '/template/extension/payment/portmonepay.tpl', $data);
@@ -67,7 +109,11 @@ class ControllerExtensionPaymentPortmonepay extends Controller {
         $this->load->model('account/order');
         $order_OrderProducts = $this->model_account_order->getOrderProducts($this->request_orderId);
         $order_Order = $this->model_account_order->getOrder($this->request_orderId);
-        $this->order_status = $order_Order['order_status_id'];
+
+        $this->order_status = -1;
+        if (is_array($order_Order) and !empty($order_Order['order_status_id'])) {
+            $this->order_status = $order_Order['order_status_id'];
+        }
 
         if (!is_array($order_OrderProducts)) {
             return $this->language->get('error_orderid');
