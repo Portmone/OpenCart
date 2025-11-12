@@ -15,3 +15,5 @@ $_['order_rejected']                    = 'Error during payment. Check your card
 $_['repeated_payment']                  = 'The status of this order is Paid, it cannot be paid again';
 $_['notification_error']                = 'Error while processing notification';
 $_['user_redirected_to_portmone']       = 'User has been redirected to Portmone.com to pay';
+$_['error_required_fields_portmone']    = 'Attention: You must fill in the required fields (first name, last name and patronymic)!';
+$_['edit_profile_link_portmone']        = 'Edit profile';
