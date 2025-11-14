@@ -47,6 +47,12 @@ $_['entry_sort_order']              = 'Порядок сортировки';
 $_['h_entry_sort_order']            = 'Порядок сортировки платежной системы при оформлении заказа';
 $_['OP_version']                    = 'OpenCart версия';
 $_['Plugin_version']                = 'Плагин версия';
+$_['entry_client_first_last_name_flag']    = 'Сохранить имя, фамилию и отчество клиента';
+$_['h_entry_client_first_last_name_flag']  = 'Имя, фамилия  и отчество клиента берется с профиля пользователя. Согласуется с менеджером Portmone';
+$_['entry_client_phone_number_flag']       = 'Сохранить телефон клиента';
+$_['h_entry_client_phone_number_flag']     = 'Телефон клиента берется с профиля пользователя. Согласуется с менеджером Portmone';
+$_['entry_client_email_flag']              = 'Сохранить email клиента';
+$_['h_entry_client_email_flag']            = 'Email клиента берется с профиля пользователя. Согласуется с менеджером Portmone';
 
 // Error
 $_['error_permission']              = 'У Вас нет прав для управления данным модулем!!';

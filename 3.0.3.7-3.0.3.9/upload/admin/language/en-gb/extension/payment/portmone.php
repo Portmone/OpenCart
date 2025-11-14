@@ -47,6 +47,12 @@ $_['OP_version']            = 'OpenCart version';
 $_['Plugin_version']        = 'Plug-in version';
 $_['entry_order_confirm_stat']      = 'Order status after placing an order';
 $_['h_entry_order_confirm_stat']    = 'When you click the "Confirm" button at the last stage of placing an order, the order will be assigned the selected status';
+$_['entry_client_first_last_name_flag']    = 'Save the client\'s first name, last name and patronymic';
+$_['h_entry_client_first_last_name_flag']  = 'The client\'s first name, last name and patronymic are taken from the user profile and agreed upon with the Portmone manager.';
+$_['entry_client_phone_number_flag']       = 'Save customer phone number';
+$_['h_entry_client_phone_number_flag']     = 'The client\'s phone number is taken from the user\'s profile and is agreed upon with the Portmone manager';
+$_['entry_client_email_flag']              = 'Save customer email';
+$_['h_entry_client_email_flag']            = 'The client\'s email is taken from the user\'s profile and is agreed upon with the Portmone manager';
 
 
 // Error

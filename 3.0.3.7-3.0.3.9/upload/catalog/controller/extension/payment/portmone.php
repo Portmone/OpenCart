@@ -1,6 +1,6 @@
 <?php
 class ControllerExtensionPaymentPortmone extends Controller {
-    public $version         = '4.0.6';
+    public $version         = '4.0.7';
     const ORDER_PAYED       = 'PAYED';
     const ORDER_CREATED     = 'CREATED';
     const ORDER_REJECTED    = 'REJECTED';
@@ -31,6 +31,51 @@ class ControllerExtensionPaymentPortmone extends Controller {
                 );
         }
 
+        $attribute1 = '';
+        if ($this->config->get('payment_portmone_entry_client_first_last_name_flag') == 1) {
+
+            $errorMessage = '<div class="alert alert-danger alert-dismissible">'. $this->language->get('error_required_fields_portmone');
+
+            $this->load->model('account/customer');
+            if ($this->customer->isLogged()) {
+                $errorMessage .= '<a href="' . $this->url->link('account/edit' ).'" title="' . $this->language->get('edit_profile_link_portmone') .'"><span>'. $this->language->get('edit_profile_link_portmone') .'</span>';
+            }
+
+            $errorMessage .= '</div>';
+
+            if (empty($order_info['firstname']) || empty($order_info['lastname'])) {
+                echo $errorMessage;
+                return;
+            }
+
+            if (empty($order_info['custom_field'])) {
+                echo $errorMessage;
+                return;
+            }
+
+            $this->load->model('account/custom_field');
+            $custom_fields = $this->model_account_custom_field->getCustomFields($this->config->get('config_customer_group_id'));
+
+            $patronymic = '';
+            foreach ($order_info['custom_field'] as $id => $custom_field) {
+                foreach ($custom_fields as $field) {
+                    if ($field['custom_field_id'] == $id &&
+                        in_array($field['name'], ['Patronymic', 'По батькові']) &&
+                        $field['location'] == 'account' &&
+                        !empty($custom_field)) {
+                        $patronymic = $custom_field;
+                    }
+                }
+            }
+
+            if ($patronymic == '') {
+                echo $errorMessage;
+                return;
+            }
+
+            $attribute1 = $order_info['firstname'] . ' ' . $order_info['lastname'] . ' ' . $patronymic;
+        }
+
         $data['button_pay']         = $this->language->get('button_pay');
         $data['action']             = $this->liveurl;
         $data['payee_id']           = $this->config->get('payment_portmone_payee_id');
@@ -45,6 +90,9 @@ class ControllerExtensionPaymentPortmone extends Controller {
         $data['failure_url']        = $this->url->link('extension/payment/portmone/callback', '', 'SSL');
         $data['lang']               = $this->getLanguage();
         $data['preauth_flag']       = ($this->config->get('payment_portmone_entry_preauth_flag') == 1)? 'Y' : 'N' ;
+        $data['attribute1']         = $attribute1;
+        $data['attribute2']         = ($this->config->get('payment_portmone_entry_client_phone_number_flag') == 1)? $order_info['telephone'] : '' ;
+        $data['attribute3']         = ($this->config->get('payment_portmone_entry_client_email_flag') == 1)? $order_info['email'] : '' ;
         $data['cms_module_name']    = json_encode(['name' => 'OpenCart', 'v' => $this->version]);
         $data['payment_portmone_order_confirm_status_id'] = 1 ;
         $key						=$this->config->get('payment_portmone_key');

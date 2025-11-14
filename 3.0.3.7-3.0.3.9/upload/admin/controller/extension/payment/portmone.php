@@ -1,6 +1,6 @@
 <?php
 class ControllerExtensionPaymentPortmone extends Controller {
-    public $version = '4.0.6';
+    public $version = '4.0.7';
     public $requires_OC_at_least = '3.0.3.7';
     public $tested_OC_up_to = '3.0.3.9';
     private $error = array();
@@ -53,6 +53,12 @@ class ControllerExtensionPaymentPortmone extends Controller {
         'h_entry_key'          		,
         'entry_exp_time'           	,
         'h_entry_exp_time'          ,
+        'entry_client_first_last_name_flag'        ,
+        'h_entry_client_first_last_name_flag'      ,
+        'entry_client_phone_number_flag'           ,
+        'h_entry_client_phone_number_flag'         ,
+        'entry_client_email_flag'           ,
+        'h_entry_client_email_flag'         ,
     );
     private $error_data = array(
         'warning'   ,
@@ -63,24 +69,27 @@ class ControllerExtensionPaymentPortmone extends Controller {
         'key'		,
     );
     private $post_data = array(
-        'status'                    ,
-        'name'                      ,
-        'payee_id'                  ,
-        'login'                     ,
-        'pass'                      ,
-        'order_confirm_id'          ,
-        'order_stat_id'             ,
-        'order_stat_fal_id'         ,
-        'order_stat_not_verified_id',
-        'order_stat_preauth_id'     ,
-        'order_stat_completed_id'   ,
-        'entry_preauth_flag'        ,
-        'entry_showlogo'            ,
-        'entry_receiveNotification' ,
-        'sort_order'                ,
-        'geo_zone_id'               ,
-        'key'						,
-        'exp_time'					,
+        'status'                      ,
+        'name'                        ,
+        'payee_id'                    ,
+        'login'                       ,
+        'pass'                        ,
+        'order_confirm_id'            ,
+        'order_stat_id'               ,
+        'order_stat_fal_id'           ,
+        'order_stat_not_verified_id'  ,
+        'order_stat_preauth_id'       ,
+        'order_stat_completed_id'     ,
+        'entry_preauth_flag'          ,
+        'entry_showlogo'              ,
+        'entry_receiveNotification'   ,
+        'sort_order'                  ,
+        'geo_zone_id'                 ,
+        'key'						  ,
+        'exp_time'					  ,
+        'entry_client_first_last_name_flag' ,
+        'entry_client_phone_number_flag'    ,
+        'entry_client_email_flag'           ,
     );
     private $currency_add_uan = array (
         'title'         => 'Гривна',
