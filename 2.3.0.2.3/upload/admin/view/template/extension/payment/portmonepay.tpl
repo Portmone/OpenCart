@@ -78,13 +78,24 @@
                           </div>
                       </div>
                       <div class="form-group required">
-                          <label class="col-sm-2 control-label" for="input-merchant">
+                          <label class="col-sm-2 control-label" for="input-portmonepay-pass">
                               <span data-toggle="tooltip" title="<?php echo $h_entry_pass; ?>"><?php echo $entry_pass; ?></span>
                           </label>
                           <div class="col-sm-10">
                               <input type="text" name="portmonepay_pass" value="<?php echo $portmonepay_pass; ?>" placeholder="<?php echo $h_entry_pass; ?>" id="input-portmonepay-pass" class="form-control" />
                               <?php if ($error_pass) { ?>
                                   <div class="text-danger"><?php echo $error_pass; ?></div>
+                              <?php } ?>
+                          </div>
+                      </div>
+                      <div class="form-group required">
+                          <label class="col-sm-2 control-label" for="input-portmonepay-key">
+                              <span data-toggle="tooltip" title="<?php echo $h_entry_key; ?>"><?php echo $entry_key; ?></span>
+                          </label>
+                          <div class="col-sm-10">
+                              <input type="text" name="portmonepay_key" value="<?php echo $portmonepay_key; ?>" placeholder="<?php echo $h_entry_key; ?>" id="input-portmonepay-key" class="form-control" />
+                              <?php if ($error_key) { ?>
+                              <div class="text-danger"><?php echo $error_key; ?></div>
                               <?php } ?>
                           </div>
                       </div>
@@ -159,6 +170,24 @@
                           </label>
                           <div class="col-sm-10">
                               <input type="text" name="portmonepay_sort_order" value="<?php echo $portmonepay_sort_order; ?>" placeholder="<?php echo $h_entry_sort_order; ?>" id="input-sort-order" class="form-control" />
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-sm-2 control-label" for="input-internal_code">
+                              <span data-toggle="tooltip" title="<?php echo $h_entry_internal_code; ?>"><?php echo $entry_internal_code; ?></span>
+                          </label>
+                          <div class="col-sm-10">
+                              <input type="text" name="portmonepay_internal_code" value="<?php echo $portmonepay_internal_code; ?>" placeholder="<?php echo $h_entry_internal_code; ?>" id="input-internal_code" class="form-control" />
+
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-sm-2 control-label" for="input-tax_rate_codes">
+                              <span data-toggle="tooltip" title="<?php echo $h_entry_tax_rate_codes; ?>"><?php echo $entry_tax_rate_codes; ?></span>
+                          </label>
+                          <div class="col-sm-10">
+                              <input type="text" name="portmonepay_tax_rate_codes" value="<?php echo $portmonepay_tax_rate_codes; ?>" placeholder="<?php echo $h_entry_tax_rate_codes; ?>" id="input-tax_rate_codes" class="form-control" />
+
                           </div>
                       </div>
                   </div>

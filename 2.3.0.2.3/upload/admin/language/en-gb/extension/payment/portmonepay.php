@@ -31,6 +31,12 @@ $_['entry_showlogo']        = 'Show logo on payment page';
 $_['h_entry_showlogo']      = 'Show Portmone logo when ordering';
 $_['entry_sort_order']      = 'Sort Order';
 $_['h_entry_sort_order']    = 'Order of sorting the payment system when placing an order';
+$_['entry_internal_code']      = 'Seller\'s code';
+$_['h_entry_internal_code']    = 'Seller\'s code';
+$_['entry_tax_rate_codes']     = 'Tax rate code';
+$_['h_entry_tax_rate_codes']   = 'Numeric tax rate code (pre-programmed in the tax agent\'s dashboard). For multiple taxes, separate by commas';
+$_['entry_key']        		= 'Signature key';
+$_['h_entry_key']     		= 'Signature key stored at Portmone';
 $_['OP_version']            = 'OP version';
 $_['Plugin_version']        = 'Plug-in version';
 
@@ -39,3 +45,4 @@ $_['error_permission']      = 'Warning: You do not have permission to modify pay
 $_['error_payee_id']        = 'Required';
 $_['error_login']           = 'Required';
 $_['error_pass']            = 'Required';
+$_['error_key']            = 'Required';
