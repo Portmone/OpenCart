@@ -1,6 +1,6 @@
 <?php
 class ControllerExtensionPaymentPortmone extends Controller {
-    public $version         = '4.0.7';
+    public $version         = '4.1.1';
     const ORDER_PAYED       = 'PAYED';
     const ORDER_CREATED     = 'CREATED';
     const ORDER_REJECTED    = 'REJECTED';
@@ -29,6 +29,40 @@ class ControllerExtensionPaymentPortmone extends Controller {
                     $order_info['currency_value'],
                     false
                 );
+        }
+
+        $data['payee_id']           = $this->config->get('payment_portmone_payee_id');
+        $data['shop_order_number']  = $this->session->data['order_id'].'_'.time();
+        $data['bill_amount']        = $this->currency->format($order_info['total'],
+            $order_info['currency_code'],
+            $order_info['currency_value'], false);
+        $data['bill_currency']      = $this->getBillCurrencyCode($order_info['currency_code']);
+        $data['description']        = $description_order;
+        $data['success_url']        = $this->url->link('extension/payment/portmone/callback', '', 'SSL');
+        $data['failure_url']        = $this->url->link('extension/payment/portmone/callback', '', 'SSL');
+        $data['preauth_flag']       = ($this->config->get('payment_portmone_entry_preauth_flag') == 1)? 'Y' : 'N' ;
+        $data['button_pay']         = $this->language->get('button_pay');
+
+        if ($this->config->get('payment_portmone_entry_alternative_link_payment_page_flag') == 1) {
+            $str = 'payeeId=' . $data['payee_id'] . '&'
+                . 'bill_currency=' . $data['bill_currency'] . '&'
+                . 'amount=' . $data['bill_amount'] . '&'
+                . 'shopOrderNumber=' . $data['shop_order_number'] . '&'
+                . 'description=' . $data['description'] . '&'
+                . 'preauth_flag=' . $data['preauth_flag'] . '&'
+                . 'successUrl=' . $data['success_url'] . '&'
+                . 'failureUrl=' . $data['failure_url']
+            ;
+
+            $alternative_payment_page_link_data['alternative_payment_page_link_flag'] = 1;
+            $alternative_payment_page_link_data['action'] = 'https://www.portmone.com.ua/r3/uk/pay-shop?id=' . base64_encode(gzencode($str));
+            $alternative_payment_page_link_data['button_pay'] = $data['button_pay'];
+
+            if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/extension/payment/portmone')) {
+                return $this->load->view($this->config->get('config_template') . '/template/extension/payment/portmone', $alternative_payment_page_link_data);
+            } else {
+                return $this->load->view('extension/payment/portmone', $alternative_payment_page_link_data);
+            }
         }
 
         $attribute1 = '';
@@ -76,20 +110,9 @@ class ControllerExtensionPaymentPortmone extends Controller {
             $attribute1 = $order_info['firstname'] . ' ' . $order_info['lastname'] . ' ' . $patronymic;
         }
 
-        $data['button_pay']         = $this->language->get('button_pay');
         $data['action']             = $this->liveurl;
-        $data['payee_id']           = $this->config->get('payment_portmone_payee_id');
         $data['exp_time']           = $this->config->get('payment_portmone_exp_time');
-        $data['shop_order_number']  = $this->session->data['order_id'].'_'.time();
-        $data['bill_amount']        = $this->currency->format($order_info['total'],
-            $order_info['currency_code'],
-            $order_info['currency_value'], false);
-        $data['bill_currency']      = $this->getBillCurrencyCode($order_info['currency_code']);
-        $data['description']        = $description_order;
-        $data['success_url']        = $this->url->link('extension/payment/portmone/callback', '', 'SSL');
-        $data['failure_url']        = $this->url->link('extension/payment/portmone/callback', '', 'SSL');
         $data['lang']               = $this->getLanguage();
-        $data['preauth_flag']       = ($this->config->get('payment_portmone_entry_preauth_flag') == 1)? 'Y' : 'N' ;
         $data['attribute1']         = $attribute1;
         $data['attribute2']         = ($this->config->get('payment_portmone_entry_client_phone_number_flag') == 1)? $order_info['telephone'] : '' ;
         $data['attribute3']         = ($this->config->get('payment_portmone_entry_client_email_flag') == 1)? $order_info['email'] : '' ;
