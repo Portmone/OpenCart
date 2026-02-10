@@ -1,6 +1,6 @@
 <?php
 class ControllerExtensionPaymentPortmone extends Controller {
-    public $version = '4.0.7';
+    public $version = '4.1.1';
     public $requires_OC_at_least = '3.0.3.7';
     public $tested_OC_up_to = '3.0.3.9';
     private $error = array();
@@ -36,10 +36,13 @@ class ControllerExtensionPaymentPortmone extends Controller {
         'entry_geo_zone'            ,
         'entry_preauth_flag'        ,
         'h_entry_preauth_flag'      ,
+        'd_entry_preauth_flag'      ,
         'entry_showlogo'            ,
         'h_entry_showlogo'          ,
+        'd_entry_showlogo'          ,
         'entry_receiveNotification' ,
         'h_entry_receiveNotification',
+        'd_entry_receiveNotification',
         'entry_sort_order'          ,
         'h_entry_sort_order'        ,
         'OP_version'                ,
@@ -55,10 +58,16 @@ class ControllerExtensionPaymentPortmone extends Controller {
         'h_entry_exp_time'          ,
         'entry_client_first_last_name_flag'        ,
         'h_entry_client_first_last_name_flag'      ,
+        'd_entry_client_first_last_name_flag'      ,
         'entry_client_phone_number_flag'           ,
         'h_entry_client_phone_number_flag'         ,
-        'entry_client_email_flag'           ,
-        'h_entry_client_email_flag'         ,
+        'd_entry_client_phone_number_flag'         ,
+        'entry_client_email_flag'                  ,
+        'h_entry_client_email_flag'                ,
+        'd_entry_client_email_flag'                ,
+        'entry_alternative_link_payment_page_flag'  ,
+        'h_entry_alternative_link_payment_page_flag',
+        'd_entry_alternative_link_payment_page_flag',
     );
     private $error_data = array(
         'warning'   ,
@@ -90,6 +99,7 @@ class ControllerExtensionPaymentPortmone extends Controller {
         'entry_client_first_last_name_flag' ,
         'entry_client_phone_number_flag'    ,
         'entry_client_email_flag'           ,
+        'entry_alternative_link_payment_page_flag'  ,
     );
     private $currency_add_uan = array (
         'title'         => 'Гривна',

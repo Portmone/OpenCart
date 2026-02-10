@@ -1,3 +1,6 @@
+{% if alternative_payment_page_link_flag %}
+<form action="{{ action }}" method="post" id="checkout-portmone">
+{% else %}
 <form action="{{ action }}" method="post" id="checkout-portmone">
     <input type="hidden" name="payee_id" value="{{ payee_id }}">
     <input type="hidden" name="shop_order_number" value="{{ shop_order_number }}">
@@ -18,6 +21,7 @@
     {% if exp_time %}
         <input type="hidden" name="exp_time" value='{{exp_time}}' />
     {% endif %}
+{% endif %}
     <div class="buttons">
         <div class="pull-right">
             <input type="button" value="{{ button_pay }}" id="button-confirm" class="btn btn-primary" />
