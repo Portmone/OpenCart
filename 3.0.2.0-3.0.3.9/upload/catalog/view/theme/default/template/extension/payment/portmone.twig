@@ -1,0 +1,31 @@
+{% if alternative_payment_page_link_flag %}
+<form action="{{ action }}" method="post" id="checkout-portmone">
+{% else %}
+<form action="{{ action }}" method="post" id="checkout-portmone">
+    <input type="hidden" name="bodyRequest" value='{{ data }}'>
+    <input type="hidden" name="typeRequest" value="json">
+{% endif %}
+    <div class="buttons">
+        <div class="pull-right">
+            <input type="button" value="{{ button_pay }}" id="button-confirm" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
+<script type="text/javascript"><!--
+    $(document).delegate('#button-confirm', 'click', function() {
+        $.ajax({
+            type: 'get',
+            url: '{{ confirm }}',
+            beforeSend: function() {
+                $('#button-confirm').attr('disabled', true);
+                $('#button-confirm').button('loading');
+            },
+            complete: function() {
+                $('#button-confirm').button('reset');
+            },
+            success: function() {
+                document.forms['checkout-portmone'].submit();
+            }
+        });
+    });
+    //--></script>
