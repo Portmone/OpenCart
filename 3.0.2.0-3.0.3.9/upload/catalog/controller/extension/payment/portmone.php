@@ -253,7 +253,7 @@ class ControllerExtensionPaymentPortmone extends Controller {
             }
         }
 
-        $this->model_extension_payment_portmone->deleteSetting('payment_portmone_view_error');
+        // $this->model_extension_payment_portmone->deleteSetting('payment_portmone_view_error');
         if ($this->request->post['RESULT'] !== '0') {
             $this->model_checkout_order->addOrderHistory(
                 $this->request_orderId,
