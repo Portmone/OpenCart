@@ -62,19 +62,88 @@ class ControllerExtensionPaymentPortmonepay extends Controller {
 
             if (is_array($getProducts)) {
                 $goods = [];
+                $specialTotal = 0;
+                $this->load->model('catalog/product');
+
                 foreach($getProducts as $product) {
-                    $goods[] = [
+                    // Отримуємо дані про товар із замовлення
+                    $product_info = $this->model_catalog_product->getProduct($product['product_id']);
+
+                    $good = [
                         'internalCode' => $this->config->get('portmonepay_internal_code'),
                         'name' => $product['name'],
-                        'price' => $product['price'],
+                        'price' => $product_info['price'],
                         'quantity' => $product['quantity'],
-                        'amount' => $product['total'],
+                        'amount' =>  $product['quantity']* $product_info['price'],
                         'taxRateCodes' => $this->config->get('portmonepay_tax_rate_codes'),
+                        'barcode' => !empty($product_info[$this->config->get('portmonepay_product_barcode_id')]) ? $product_info[$this->config->get('portmonepay_product_barcode_id')] : '',
+                        'discount' => 0,
+                        'discountName' => ""
+
+                    ];
+
+                    if ($product_info['special']) {
+                        // Знижка на одиницю товару
+                        $discount_amount = $product_info['price'] - $product_info['special'];
+
+                        $good['amount'] = $product['quantity'] * $product_info['special'];
+                        $good['discount'] = $product['quantity'] * $discount_amount;
+                        $good['discountName'] = 'Знижка';
+
+                        //$specialTotal += $product['quantity'] * $discount_amount;
+                    }
+
+                    $goods[] = $good;
+                }
+
+                $this->load->model('account/order');
+                $order_totals = $this->model_account_order->getOrderTotals($this->session->data['order_id']);
+                // Вартість доставки
+                $shipping_cost = 0;
+                // сума знижок на чек
+                // coupon – застосований купон.
+                // reward – бонусні бали.
+                // voucher – подарунковий сертифікат.
+                $discounts = 0;
+                foreach ($order_totals as $total) {
+                    // доставка
+                    if ($total['code'] == 'shipping') {
+                        $shipping_cost = (float)$total['value'];
+                        continue;
+                    }
+
+                    if (in_array($total['code'], ['coupon', 'voucher', 'reward'])) {
+                        $discounts += $total['value'];
+                    }
+                }
+
+                // доставка
+                if ($shipping_cost > 0) {
+                    $goods[] = [
+                        'internalCode' => $this->config->get('portmonepay_internal_code'),
+                        'name' => 'Компенсація транспортних витрат',
+                        'price' => $shipping_cost,
+                        'quantity' => '1',
+                        'amount' => $shipping_cost,
+                        'taxRateCodes' => $this->config->get('portmonepay_tax_rate_codes'),
+                        'barcode' => '',
+                    ];
+                }
+
+                // знижока на чек
+                if ($discounts < 0) {
+                    $goods[] = [
+                        'internalCode' => $this->config->get('portmonepay_internal_code'),
+                        'name' => 'Знижка',
+                        'price' => $discounts,
+                        'quantity' => '1',
+                        'amount' => $discounts,
+                        'taxRateCodes' => $this->config->get('portmonepay_tax_rate_codes'),
+                        'barcode' => '',
                     ];
                 }
 
                 $postData['goods'] = $goods;
-
             }
         }
 
