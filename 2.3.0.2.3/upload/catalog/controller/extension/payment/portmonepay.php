@@ -82,15 +82,18 @@ class ControllerExtensionPaymentPortmonepay extends Controller {
 
                     ];
 
-                    if ($product_info['special']) {
-                        // Знижка на одиницю товару
-                        $discount_amount = $product_info['price'] - $product_info['special'];
+                    // Приводимо базову ціну з адмінки до поточної валюти сесії
+                    $base_price = $this->currency->format($product_info['price'], $this->session->data['currency'], '', false);
+                    // Фактична ціна однієї одиниці товару в кошику (вже з урахуванням усіх акцій та знижок)
+                    $current_price = $product['price'];
 
-                        $good['amount'] = $product['quantity'] * $product_info['special'];
-                        $good['discount'] = $product['quantity'] * $discount_amount;
-                        $good['discountName'] = 'Знижка';
+                    // Якщо фактична ціна менша за базову — просто рахуємо знижку на основі чистої математики
+                    if ($current_price < $base_price) {
+                        $discount_amount_per_item = $base_price - $current_price;
 
-                        //$specialTotal += $product['quantity'] * $discount_amount;
+                        $good['amount'] = $product['quantity'] * $current_price;
+                        $good['discount'] = $product['quantity'] * $discount_amount_per_item;
+                        $good['discountName'] = 'Знижка'; // Завжди однакова назва для будь-якого типу знижки
                     }
 
                     $goods[] = $good;
