@@ -63,7 +63,7 @@ $_['entry_alternative_link_payment_page_flag'] = 'Alternative mode for redirecti
 $_['h_entry_alternative_link_payment_page_flag'] = 'Use this if you need to collect additional data from the customer on the Portmone side during payment.';
 $_['d_entry_alternative_link_payment_page_flag'] = '<p>When enabled — an alternative mode of redirecting to the Portmone payment page is used, in which additional fields (attribute1–attribute4) may be displayed to the customer for self-completion during payment. The entered values are transmitted as payment attributes and are available to the merchant in the payment results. Field names and purposes are configured in the <a href="https://business.portmone.com.ua/settings/payment-form/tuning" target="_blank">Business Cabinet</a></p><p>When disabled — the standard redirect mode to the payment page is used, without customer input in attributes</p>';
 $_['entry_internal_code']      = 'Seller\'s code';
-$_['h_entry_internal_code']    = 'Seller\'s code';
+$_['h_entry_internal_code']    = 'Seller ID for fiscalization.';
 $_['entry_tax_rate_codes']     = 'Tax rate code';
 $_['h_entry_tax_rate_codes']   = 'Numeric tax rate code (pre-programmed in the tax agent\'s dashboard). For multiple taxes, separate by commas';
 $_['entry_test_mode_flag']     = 'Test Mode';
