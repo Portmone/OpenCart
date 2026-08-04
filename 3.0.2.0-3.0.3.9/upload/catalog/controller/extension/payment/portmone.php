@@ -95,7 +95,12 @@ class ControllerExtensionPaymentPortmone extends Controller {
             'card' => 'Y'
         ];
 
-        if (!empty($this->config->get('payment_portmone_internal_code')) && !empty($this->config->get('payment_portmone_tax_rate_codes'))) {
+        if (!empty($this->config->get('payment_portmone_internal_code')) &&
+            !empty($this->config->get('payment_portmone_entry_fiscalization_flag')) &&
+            $this->config->get('payment_portmone_entry_fiscalization_flag') == 1 &&
+            $order_info['currency_code'] === 'UAH'  &&
+            $this->currency->has('UAH')
+        ) {
 
             if (is_array($getProducts)) {
                 $goods = [];
@@ -103,13 +108,37 @@ class ControllerExtensionPaymentPortmone extends Controller {
                     $this->load->model('catalog/product');
                     $product_info = $this->model_catalog_product->getProduct($product['product_id']);
 
+                    $errorMessage = '';
+                    $taxRateCodes = '';
+                    if (!empty($this->config->get('payment_portmone_tax_rate_id')) && $this->config->get('payment_portmone_tax_rate_id') === 'tax_rate_each_product') {
+                        if (!empty($product_info[$this->config->get('payment_portmone_product_tax_rate_codes_id')])) {
+                            $taxRateCodes = $product_info[$this->config->get('payment_portmone_product_tax_rate_codes_id')];
+                        } else {
+                            $errorMessage = '<div class="alert alert-danger alert-dismissible">'. $this->language->get('error_portmone_tax_rate_code') .'</div>';
+                        }
+                    } else {
+                        if (!empty($this->config->get('payment_portmone_tax_rate_codes'))) {
+                            $taxRateCodes = $this->config->get('payment_portmone_tax_rate_codes');
+                        } else {
+                            $errorMessage = '<div class="alert alert-danger alert-dismissible">'. $this->language->get('error_portmone_tax_rate_code') .'</div>';
+                        }
+                    }
+
+                    if ($errorMessage != '') {
+                        echo $errorMessage;
+                        return;
+                    }
+
+                    $price_uah = $this->currency->convert($product['price'], $this->config->get('config_currency'), 'UAH');
+                    $total_uah = $this->currency->convert($product['total'], $this->config->get('config_currency'), 'UAH');
+
                     $goods[] = [
                         'internalCode' => $this->config->get('payment_portmone_internal_code'),
                         'name' => $product['name'],
-                        'price' => $product['price'],
+                        'price' => round($price_uah, 2),
                         'quantity' => $product['quantity'],
-                        'amount' => $product['total'],
-                        'taxRateCodes' => $this->config->get('payment_portmone_tax_rate_codes'),
+                        'amount' => round($total_uah, 2),
+                        'taxRateCodes' => $taxRateCodes,
                         'barcode' => !empty($product_info[$this->config->get('payment_portmone_product_barcode_id')]) ? $product_info[$this->config->get('payment_portmone_product_barcode_id')] : '',
                     ];
                 }

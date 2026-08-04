@@ -71,6 +71,16 @@ $_['h_entry_test_mode_flag']   = 'Check to enable Test Mode';
 $_['d_entry_test_mode_flag']   = 'In test mode, the order number (shopOrderNumber) is transferred to the wallet system as a concatenation of the strings order number in the partner system, the symbol _ , and a timestamp';
 $_['entry_product_barcode']    = 'Product barcode source for fiscalization';
 $_['h_entry_product_barcode']  = 'Select the OpenCart product field from which the barcode value will be taken. This value will be sent as barcode in the goods array during auto fiscalization (including National Cashback).';
+$_['entry_fiscalization_flag']              = 'Autofiscalization';
+$_['h_entry_fiscalization_flag']            = 'Transfer data for auto-fiscalization';
+$_['d_entry_fiscalization_flag']            = 'Along with the payment, order data is transferred to Portmone for automatic fiscalization of the check.';
+$_['entry_list_of_tax_rates']    = 'Method of determining the tax rate';
+$_['h_entry_list_of_tax_rates']  = 'Select Separately for each product if your store has products with different VAT rates and they can be included in one receipt.';
+$_['entry_tax_rate_all_product']    = 'Single rate for all products';
+$_['entry_tax_rate_each_product']    = 'Separately for each product';
+$_['entry_product_tax_rate_codes']    = 'Source of tax rate for fiscalization';
+$_['h_entry_product_tax_rate_codes']  = 'Select the OpenCart product field from which the tax rate value will be taken for the product. This value is passed as taxRateCodes in the goods array during auto-fiscalization.';
+
 
 // Error
 $_['error_permission']      = 'Warning: You do not have permission to modify payment Portmone!';
@@ -82,3 +92,4 @@ $_['notice_description']    = 'The error will disappear after a successful payme
 $_['plagin_status_success'] = 'version is relevant for the plugin';
 $_['plagin_status_warning'] = 'the plugin is NOT tested on this version and may be unstable';
 $_['user_redirected_to_portmone']       = 'User has been redirected to Portmone.com to pay';
+$_['error_select_codes']                = 'You cannot use the same values ​​for Tax Rate Source and Product Barcode Source';
