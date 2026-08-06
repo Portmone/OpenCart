@@ -1,6 +1,6 @@
 <?php
 class ControllerExtensionPaymentPortmonepay extends Controller {
-    public $version = '2.0.1';
+    public $version = '2.1.1';
     private $error = array();
     private $text_data = array(
     'heading_title'             ,
@@ -43,7 +43,10 @@ class ControllerExtensionPaymentPortmonepay extends Controller {
     'entry_internal_code'       ,
     'h_entry_tax_rate_codes'    ,
     'entry_tax_rate_codes'      ,
+    'entry_product_barcode'     ,
+    'h_entry_product_barcode'   ,
     );
+
     private $error_data = array(
     'warning'   ,
     'payee_id'  ,
@@ -66,6 +69,7 @@ class ControllerExtensionPaymentPortmonepay extends Controller {
     'geo_zone_id'       ,
     'internal_code'     ,
     'tax_rate_codes'    ,
+    'product_barcode_id',
     );
     private $currency_add_uan = array (
     'title'         => 'Гривна',
@@ -134,6 +138,14 @@ class ControllerExtensionPaymentPortmonepay extends Controller {
         $data['order_statuses'] = $this->model_localisation_order_status->getOrderStatuses();
         $data['portmonepay_order_stat_fa'] = $this->model_localisation_order_status->getOrderStatuses();
         $data['geo_zones'] = $this->model_localisation_geo_zone->getGeoZones();
+
+        $data['product_barcodes']                 = [
+            array('id' => 'upc', 'name' => 'UPC'),
+            array('id' => 'jan', 'name' => 'JAN'),
+            array('id' => 'isbn', 'name' => 'ISBN'),
+            array('id' => 'mpn', 'name' => 'MPN'),
+            array('id' => 'sku', 'name' => 'SKU'),
+        ];
 
         foreach ($this->post_data as $value) {
             if (isset($this->request->post['portmonepay_'.$value])) {

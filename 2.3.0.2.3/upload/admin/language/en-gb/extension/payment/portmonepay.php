@@ -39,6 +39,9 @@ $_['entry_key']        		= 'Signature key';
 $_['h_entry_key']     		= 'Signature key stored at Portmone';
 $_['OP_version']            = 'OP version';
 $_['Plugin_version']        = 'Plug-in version';
+$_['entry_product_barcode']    = 'Product barcode source for fiscalization';
+$_['h_entry_product_barcode']  = 'Select the OpenCart product field from which the barcode value will be taken. This value will be sent as barcode in the goods array during auto fiscalization (including National Cashback).';
+
 
 // Error
 $_['error_permission']      = 'Warning: You do not have permission to modify payment Portmone!';

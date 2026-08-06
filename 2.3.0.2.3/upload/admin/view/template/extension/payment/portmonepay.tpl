@@ -190,6 +190,22 @@
 
                           </div>
                       </div>
+                      <div class="form-group">
+                          <label class="col-sm-2 control-label" for="input-product-barcode">
+                              <span data-toggle="tooltip" title="<?php echo $h_entry_product_barcode; ?>"><?php echo $entry_product_barcode; ?></span>
+                          </label>
+                          <div class="col-sm-10">
+                              <select name="portmonepay_product_barcode_id" id="input-product-barcode" class="form-control">
+                                  <?php foreach ($product_barcodes as $product_barcode) { ?>
+                                  <?php if ($product_barcode['id'] == $portmonepay_product_barcode_id) { ?>
+                                  <option value="<?php echo $product_barcode['id']; ?>" selected="selected"><?php echo $product_barcode['name']; ?></option>
+                                  <?php } else { ?>
+                                  <option value="<?php echo $product_barcode['id']; ?>"><?php echo $product_barcode['name']; ?></option>
+                                  <?php } ?>
+                                  <?php } ?>
+                              </select>
+                          </div>
+                      </div>
                   </div>
                   <div class="tab-pane" id="tab-status">
                       <div class="form-group">
