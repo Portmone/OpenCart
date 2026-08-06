@@ -63,7 +63,7 @@ $_['entry_alternative_link_payment_page_flag'] = 'Alternative mode for redirecti
 $_['h_entry_alternative_link_payment_page_flag'] = 'Use this if you need to collect additional data from the customer on the Portmone side during payment.';
 $_['d_entry_alternative_link_payment_page_flag'] = '<p>When enabled — an alternative mode of redirecting to the Portmone payment page is used, in which additional fields (attribute1–attribute4) may be displayed to the customer for self-completion during payment. The entered values are transmitted as payment attributes and are available to the merchant in the payment results. Field names and purposes are configured in the <a href="https://business.portmone.com.ua/settings/payment-form/tuning" target="_blank">Business Cabinet</a></p><p>When disabled — the standard redirect mode to the payment page is used, without customer input in attributes</p>';
 $_['entry_internal_code']      = 'Seller\'s code';
-$_['h_entry_internal_code']    = 'Seller\'s code';
+$_['h_entry_internal_code']    = 'Seller ID for fiscalization.';
 $_['entry_tax_rate_codes']     = 'Tax rate code';
 $_['h_entry_tax_rate_codes']   = 'Numeric tax rate code (pre-programmed in the tax agent\'s dashboard). For multiple taxes, separate by commas';
 $_['entry_test_mode_flag']     = 'Test Mode';
@@ -71,6 +71,16 @@ $_['h_entry_test_mode_flag']   = 'Check to enable Test Mode';
 $_['d_entry_test_mode_flag']   = 'In test mode, the order number (shopOrderNumber) is transferred to the wallet system as a concatenation of the strings order number in the partner system, the symbol _ , and a timestamp';
 $_['entry_product_barcode']    = 'Product barcode source for fiscalization';
 $_['h_entry_product_barcode']  = 'Select the OpenCart product field from which the barcode value will be taken. This value will be sent as barcode in the goods array during auto fiscalization (including National Cashback).';
+$_['entry_fiscalization_flag']              = 'Autofiscalization';
+$_['h_entry_fiscalization_flag']            = 'Transfer data for auto-fiscalization';
+$_['d_entry_fiscalization_flag']            = 'Along with the payment, order data is transferred to Portmone for automatic fiscalization of the check.';
+$_['entry_list_of_tax_rates']    = 'Method of determining the tax rate';
+$_['h_entry_list_of_tax_rates']  = 'Select Separately for each product if your store has products with different VAT rates and they can be included in one receipt.';
+$_['entry_tax_rate_all_product']    = 'Single rate for all products';
+$_['entry_tax_rate_each_product']    = 'Separately for each product';
+$_['entry_product_tax_rate_codes']    = 'Source of tax rate for fiscalization';
+$_['h_entry_product_tax_rate_codes']  = 'Select the OpenCart product field from which the tax rate value will be taken for the product. This value is passed as taxRateCodes in the goods array during auto-fiscalization.';
+
 
 // Error
 $_['error_permission']      = 'Warning: You do not have permission to modify payment Portmone!';
@@ -82,3 +92,4 @@ $_['notice_description']    = 'The error will disappear after a successful payme
 $_['plagin_status_success'] = 'version is relevant for the plugin';
 $_['plagin_status_warning'] = 'the plugin is NOT tested on this version and may be unstable';
 $_['user_redirected_to_portmone']       = 'User has been redirected to Portmone.com to pay';
+$_['error_select_codes']                = 'You cannot use the same values ​​for Tax Rate Source and Product Barcode Source';

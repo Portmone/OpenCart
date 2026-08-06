@@ -17,3 +17,4 @@ $_['notification_error']                = 'Error while processing notification';
 $_['user_redirected_to_portmone']       = 'User has been redirected to Portmone.com to pay';
 $_['error_required_fields_portmone']    = 'Attention: You must fill in the required fields (first name, last name and patronymic)!';
 $_['edit_profile_link_portmone']        = 'Edit profile';
+$_['error_portmone_tax_rate_code']      = 'An error occurred. No tax rate specified. Please contact us for assistance.';

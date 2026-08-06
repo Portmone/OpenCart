@@ -1,6 +1,6 @@
 <?php
 class ControllerExtensionPaymentPortmone extends Controller {
-    public $version = '4.2.1';
+    public $version = '4.2.2';
     public $requires_OC_at_least = '3.0.2';
     public $tested_OC_up_to = '3.0.3.9';
     private $error = array();
@@ -77,6 +77,13 @@ class ControllerExtensionPaymentPortmone extends Controller {
         'd_entry_test_mode_flag'                    ,
         'entry_product_barcode'                     ,
         'h_entry_product_barcode'                   ,
+        'entry_fiscalization_flag'                  ,
+        'h_entry_fiscalization_flag'                ,
+        'd_entry_fiscalization_flag'                ,
+        'entry_list_of_tax_rates'                   ,
+        'h_entry_list_of_tax_rates'                 ,
+        'entry_product_tax_rate_codes'              ,
+        'h_entry_product_tax_rate_codes'            ,
     );
     private $error_data = array(
         'warning'   ,
@@ -109,6 +116,9 @@ class ControllerExtensionPaymentPortmone extends Controller {
         'entry_client_phone_number_flag'    ,
         'entry_client_email_flag'           ,
         'entry_alternative_link_payment_page_flag'  ,
+        'entry_fiscalization_flag'    ,
+        'tax_rate_id'                 ,
+        'product_tax_rate_codes_id'   ,
         'internal_code'               ,
         'tax_rate_codes'              ,
         'product_barcode_id'          ,
@@ -116,7 +126,7 @@ class ControllerExtensionPaymentPortmone extends Controller {
     );
     private $currency_add_uan = array (
         'title'         => 'Гривна',
-        'code'          => 'UAN',
+        'code'          => 'UAH',
         'symbol_left'   => '₴' ,
         'symbol_right'  => 'грн' ,
         'decimal_place' => '2' ,
@@ -167,6 +177,8 @@ class ControllerExtensionPaymentPortmone extends Controller {
             $this->session->data['success'] = $this->language->get('text_success');
             $this->response->redirect($this->makeUrl('extension/payment/portmone'));
         }
+
+        $this->document->addScript('view/javascript/portmone/portmone.js');
 
         $data['entry_OP_version'] = VERSION;
         $data['OC_actual'] = $this->OC_actual();
@@ -219,12 +231,21 @@ class ControllerExtensionPaymentPortmone extends Controller {
         $data['order_statuses']                 = $this->model_localisation_order_status->getOrderStatuses();
         $data['geo_zones']                      = $this->model_localisation_geo_zone->getGeoZones();
 
-        $data['product_barcodes']                 = [
+
+        $product_codes = [
             (object) array('id' => 'upc', 'name' => 'UPC'),
             (object) array('id' => 'jan', 'name' => 'JAN'),
             (object) array('id' => 'isbn', 'name' => 'ISBN'),
             (object) array('id' => 'mpn', 'name' => 'MPN'),
             (object) array('id' => 'sku', 'name' => 'SKU'),
+        ];
+
+        $data['product_barcodes'] = $product_codes;
+        $data['product_tax_rate_codes'] = $product_codes;
+
+        $data['list_of_tax_rates']                 = [
+            (object) array('id' => 'tax_rate_all_product', 'name' => $this->language->get('entry_tax_rate_all_product') ),
+            (object) array('id' => 'tax_rate_each_product', 'name' => $this->language->get('entry_tax_rate_each_product') ),
         ];
 
         foreach ($this->post_data as $value) {
@@ -260,7 +281,9 @@ class ControllerExtensionPaymentPortmone extends Controller {
     }
 
     private function currency_add_uan() {
-        $this->model_localisation_currency->addCurrency($this->currency_add_uan);
+        if (!$this->currency->has('UAH')) {
+            $this->model_localisation_currency->addCurrency($this->currency_add_uan);
+        }
     }
 
     public function install() {
@@ -294,6 +317,15 @@ class ControllerExtensionPaymentPortmone extends Controller {
         }
         if (!$this->request->post['payment_portmone_pass']) {
             $this->error['pass'] = $this->language->get('error_pass');
+        }
+
+        if (!empty($this->request->post['payment_portmone_tax_rate_id'])  && $this->request->post['payment_portmone_tax_rate_id'] === 'tax_rate_each_product' ) {
+            if (!empty($this->request->post['payment_portmone_product_tax_rate_codes_id']) &&
+                !empty($this->request->post['payment_portmone_product_barcode_id']) &&
+                $this->request->post['payment_portmone_product_tax_rate_codes_id'] === $this->request->post['payment_portmone_product_barcode_id']
+            ) {
+                $this->error['warning'] = $this->language->get('error_select_codes');
+            }
         }
 
         return !$this->error;
